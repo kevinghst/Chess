@@ -66,7 +66,7 @@ class Cursor
     end
 
     STDIN.echo = true
-    STDIN.cooked! 
+    STDIN.cooked!
 
     return input
   end
@@ -90,9 +90,6 @@ class Cursor
     unless @board.inbounds?([x, y]) == false
       @cursor_pos = [x, y]
     end
-
     nil
   end
-
-
 end

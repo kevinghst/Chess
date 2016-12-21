@@ -1,8 +1,5 @@
 require_relative 'pieces/pieces'
 
-class IllegalMoveError < StandardError
-end
-
 class Board
 
   attr_accessor :grid
@@ -10,7 +7,6 @@ class Board
   def initialize
     @null_piece = NullPiece.instance
     @grid = Array.new(8) { Array.new(8) { @null_piece } }
-    @last_move = nil
     populate_back_rows
     populate_pawn_rows
   end
@@ -51,8 +47,6 @@ class Board
     @grid[row][col]
   end
 
-  #pos == [0,0]
-
   def []=(pos, value)
     row, col = pos
     @grid[row][col] = value
@@ -65,16 +59,8 @@ class Board
   end
 
   def move_piece(start_pos, end_pos)
-
-    self[end_pos] = self[start_pos]
-    self[start_pos] = @null_piece
-
-    @last_move = [start_pos, end_pos]
-  end
-
-  def undo_move
-    self.move_piece(@last_move[1], @last_move[0])
-    @last_move = [@last_move[1], @last_move[0]]
+      self[end_pos] = self[start_pos]
+      self[start_pos] = @null_piece
   end
 
   def inbounds?(pos)
@@ -150,8 +136,6 @@ class Board
      new_array
    end
 end
-
-
 
 if __FILE__ == $PROGRAM_NAME
   b = Board.new

@@ -2,14 +2,14 @@ require 'colorize'
 require_relative 'cursor'
 require_relative 'board'
 
-
 class Display
 
-  attr_accessor :cursor
+  attr_accessor :cursor, :notifications
 
   def initialize(board)
     @board = board
     @cursor = Cursor.new([0, 0], @board)
+    @notifications = {}
   end
 
   def render
@@ -28,6 +28,9 @@ class Display
     puts letter_row(padding)
     puts "\n"
 
+    @notifications.each do |key, val|
+      puts "#{val}"
+    end
   end
 
   def letter_row(padding=1)
