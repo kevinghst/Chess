@@ -1,4 +1,3 @@
-require 'byebug'
 module SlidingPiece
 
   def self.included klass
@@ -13,7 +12,7 @@ module SlidingPiece
 
   def legal_moves
     valid_moves = []
-    
+
     self.class.move_diffs.each do |move_diff|
       x = @pos[0]
       y = @pos[1]
