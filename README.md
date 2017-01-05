@@ -17,7 +17,12 @@ This is an implementation of the classic game - Chess - using Ruby and object or
 ## Technical Details
 
 * Enabled gamestate to uncover potential checks by opponent through implementing a recursive, deep-duplication algorithm.
+
+![deepDup](assets/deepDup.png)
+
 * Kept code DRY through creating and recycling modules for pieces that share similar movement logic.
+
+![module](assets/module.png)
 
 ## To-dos/future features
 

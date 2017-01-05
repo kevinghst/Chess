@@ -1,5 +1,4 @@
 module SteppingPiece
-
   def self.included klass
     klass.singleton_class.send(:attr_reader, :move_diffs)
   end
@@ -23,5 +22,4 @@ module SteppingPiece
     new_moves = valid_moves.select {|move| self.move_into_check?(move) == false}
     return new_moves
   end
-
 end
