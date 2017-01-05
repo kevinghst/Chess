@@ -1,29 +1,9 @@
+require 'byebug'
 module SlidingPiece
 
-  ROOK_DIFFS = [
-    [-1, 0],
-    [0, 1],
-    [1, 0],
-    [0, -1]
-  ]
-
-  BISHOP_DIFFS = [
-    [-1, -1],
-    [-1, 1],
-    [1, 1],
-    [1, -1]
-  ]
-
-  QUEEN_DIFFS = [
-    [-1,-1],
-    [-1, 0],
-    [-1, 1],
-    [0, 1],
-    [1, 1],
-    [1, 0],
-    [1, -1],
-    [0, -1]
-  ]
+  def self.included klass
+    klass.singleton_class.send(:attr_reader, :move_diffs)
+  end
 
   def valid_moves
     valid_moves = self.legal_moves
@@ -33,16 +13,8 @@ module SlidingPiece
 
   def legal_moves
     valid_moves = []
-
-    case self
-    when Rook
-      move_diffs = ROOK_DIFFS
-    when Bishop
-      move_diffs = BISHOP_DIFFS
-    when Queen
-      move_diffs = QUEEN_DIFFS
-    end
-    move_diffs.each do |move_diff|
+    
+    self.class.move_diffs.each do |move_diff|
       x = @pos[0]
       y = @pos[1]
       while true

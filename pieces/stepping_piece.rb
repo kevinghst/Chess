@@ -1,40 +1,13 @@
 module SteppingPiece
 
-  KING_DIFFS = [
-    [-1,-1],
-    [-1, 0],
-    [-1, 1],
-    [0, 1],
-    [1, 1],
-    [1, 0],
-    [1, -1],
-    [0, -1]
-  ]
-
-  KNIGHT_DIFFS = [
-    [-2, -1],
-    [-2,  1],
-    [-1, -2],
-    [-1,  2],
-    [ 1, -2],
-    [ 1,  2],
-    [ 2, -1],
-    [ 2,  1]
-  ]
+  def self.included klass
+    klass.singleton_class.send(:attr_reader, :move_diffs)
+  end
 
   def legal_moves
     legal_moves = []
 
-    move_diffs = nil
-
-    case self
-    when Knight
-      move_diffs = KNIGHT_DIFFS
-    when King
-      move_diffs = KING_DIFFS
-    end
-
-    move_diffs.each do |move_diff|
+    self.class.move_diffs.each do |move_diff|
       x = @pos[0] + move_diff[0]
       y = @pos[1] + move_diff[1]
 
