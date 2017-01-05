@@ -34,8 +34,6 @@ module SlidingPiece
   def legal_moves
     valid_moves = []
 
-    move_diffs = nil
-
     case self
     when Rook
       move_diffs = ROOK_DIFFS

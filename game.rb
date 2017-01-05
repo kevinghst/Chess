@@ -3,7 +3,13 @@ require_relative 'cursor'
 require_relative 'board'
 require_relative 'display'
 require_relative 'pieces/pieces'
-require 'byebug'
+require_relative 'pieces/queen'
+require_relative 'pieces/rook'
+require_relative 'pieces/bishop'
+require_relative 'pieces/king'
+require_relative 'pieces/knight'
+require_relative 'pieces/null'
+require_relative 'pieces/pawn'
 
 class Game
 
@@ -19,22 +25,22 @@ class Game
 
   def play_turn
       begin
+        @display.current_player = @current_player.to_s
         start_pos, end_pos = nil, nil
         until start_pos
           @display.render
           start_pos = @display.cursor.get_input
         end
+        @display.notifications = {}
         until end_pos
           @display.render
           end_pos = @display.cursor.get_input
         end
 
-        if start_pos == end_pos
-          raise "Can't move to same location"
-        elsif @board[start_pos].color != @current_player
-          raise "You have to move your own piece"
-        elsif !@board[start_pos].valid_moves.include?(end_pos)
+        if start_pos == end_pos || !@board[start_pos].valid_moves.include?(end_pos)
           raise "Invalid Move"
+        elsif @board[start_pos].color != @current_player
+          raise "Not your turn"
         end
 
         @board.move_piece(start_pos, end_pos)
@@ -52,7 +58,7 @@ class Game
         puts "Black wins!"
         break
       elsif @board.checkmate?(:black)
-        puts "White Wins"
+        puts "White wins!"
         break
       else
         play_turn
@@ -61,5 +67,7 @@ class Game
   end
 end
 
-game = Game.new
-game.play_game
+if __FILE__ == $PROGRAM_NAME
+  game = Game.new
+  game.play_game
+end

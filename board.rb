@@ -1,4 +1,12 @@
 require_relative 'pieces/pieces'
+require_relative 'pieces/queen'
+require_relative 'pieces/rook'
+require_relative 'pieces/bishop'
+require_relative 'pieces/king'
+require_relative 'pieces/knight'
+require_relative 'pieces/null'
+require_relative 'pieces/pawn'
+
 
 class Board
 
@@ -135,8 +143,4 @@ class Board
      end
      new_array
    end
-end
-
-if __FILE__ == $PROGRAM_NAME
-  b = Board.new
 end

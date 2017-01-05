@@ -32,8 +32,7 @@ MOVES = {
 
 class Cursor
 
-  attr_accessor :selected
-  attr_reader :cursor_pos, :board
+  attr_reader :cursor_pos, :board, :selected
 
   def initialize(cursor_pos, board)
     @cursor_pos = cursor_pos
@@ -41,46 +40,46 @@ class Cursor
     @selected = false
   end
 
+  def toggle_selected
+    @selected = !@selected
+  end
+
   def get_input
     key = KEYMAP[read_char]
     handle_key(key)
   end
 
-  def toggle_selected
-    self.selected = !self.selected
-  end
-
   private
-
-  def read_char
-    STDIN.echo = false
-
-    STDIN.raw!
-
-    input = STDIN.getc.chr
-
-    if input == "\e" then
-      input << STDIN.read_nonblock(3) rescue nil
-
-      input << STDIN.read_nonblock(2) rescue nil
-    end
-
-    STDIN.echo = true
-    STDIN.cooked!
-
-    return input
-  end
 
   def handle_key(key)
     case key
-    when :space, :return
+    when :ctrl_c
+      exit 0
+    when :return, :space
       toggle_selected
-      return @cursor_pos
+      cursor_pos
     when :left, :right, :up, :down
       update_pos(MOVES[key])
-    when :ctrl_c
-      Process.exit
+      nil
+    else
+      puts key
     end
+  end
+
+  def read_char
+    STDIN.raw!
+    STDIN.echo = false
+
+    input = STDIN.getc.chr
+    if input == "\e" then
+      input << STDIN.read_nonblock(3) rescue nil
+      input << STDIN.read_nonblock(2) rescue nil
+    end
+
+    STDIN.cooked!
+    STDIN.echo = true
+
+    return input
   end
 
   def update_pos(diff)
@@ -90,6 +89,5 @@ class Cursor
     unless @board.inbounds?([x, y]) == false
       @cursor_pos = [x, y]
     end
-    nil
   end
 end
