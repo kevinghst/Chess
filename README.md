@@ -9,14 +9,14 @@ This is an implementation of the classic game - Chess - using Ruby and object or
 ## To start playing
 
 * Navigate into main directory of program
-* Run "bundle install" in console
+* Run `bundle install` in console
 * Run game.rb in console to load game
 * Use arrow keys to navigate positions
 * Press space to select piece, press space again to drop piece at new location
 
 ## Technical Details
 
-* Enabled gamestate to uncover potential checks by opponent through implementing a recursive, deep-duplication algorithm.
+* Enabled board to check whether the current player's move would place himself in check through implementing a recursive, deep-duplication algorithm.
 
 ![deepDup](assets/deepDup.png)
 
